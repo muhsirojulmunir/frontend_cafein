@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "555526723457",
+    "project_id": "cafein-9ba36",
+    "storage_bucket": "cafein-9ba36.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555526723457:android:4ac0dcd3256f23d319fa80",
+        "android_client_info": {
+          "package_name": "com.cafein"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkaGCNo6bJWTQQoMraLgFEJn8j4szrV8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
