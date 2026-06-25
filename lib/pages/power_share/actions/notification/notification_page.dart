@@ -169,7 +169,7 @@ class _NotificationTile extends StatelessWidget {
     IconData iconData = Icons.notifications_active_outlined;
     Color iconColor = ColorApp.colorPrimary;
 
-    switch (item.type) {
+    switch (item.resolvedType) {
       case 'like':
         iconData = Icons.favorite_rounded;
         iconColor = Colors.red.shade400;
@@ -186,18 +186,6 @@ class _NotificationTile extends StatelessWidget {
         iconData = Icons.person_add_rounded;
         iconColor = Colors.blue.shade400;
         break;
-      default:
-        // Fallback using title if type is null (for old notifications)
-        final titleLower = item.title.toLowerCase();
-        if (titleLower.contains('menyukai')) {
-          iconData = Icons.favorite_rounded;
-          iconColor = Colors.red.shade400;
-        } else if (titleLower.contains('mengikuti')) {
-          iconData = Icons.person_add_rounded;
-          iconColor = Colors.blue.shade400;
-        } else if (titleLower.contains('komentar')) {
-          iconData = Icons.comment_rounded;
-        }
     }
 
     return Container(

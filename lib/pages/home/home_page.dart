@@ -71,91 +71,84 @@ class HomePage extends StatelessWidget {
     return GetBuilder<HomeController>(
       builder: (controller) {
         return Scaffold(
-          body: Stack(
-            children: [
-              Positioned.fill(
-                child: appImages.bgHome.image(
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint("Error loading background image: $error");
-                    return Container(color: ColorApp.white);
-                  },
-                ),
+          backgroundColor: ColorApp.white,
+          body: Container(
+            width: 100.w,
+            height: 100.h,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(appImages.bgHome.path),
+                fit: BoxFit.cover,
               ),
-              SafeArea(
-                child: CustomScrollView(
-                  physics: BouncingScrollPhysics(), // Scroll interaktif
-                  slivers: [
-                    // === HEADER: Logout Button + Logo + Teks ===
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: Column(
-                          children: [
-                            SizedBox(height: 1.h),
-                            // Tombol Logout di pojok kiri atas
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: IconButton(
-                                onPressed: () =>
-                                    _showLogoutDialog(context, controller),
-                                icon: Icon(
-                                  Icons.exit_to_app_rounded,
-                                  color: ColorApp.colorPrimary,
-                                  size: 24.sp,
-                                ),
+            ),
+            child: SafeArea(
+              child: CustomScrollView(
+                physics: BouncingScrollPhysics(), // Scroll interaktif
+                slivers: [
+                  // === HEADER: Logout Button + Logo + Teks ===
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 1.h),
+                          // Tombol Logout di pojok kiri atas
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              onPressed: () =>
+                                  _showLogoutDialog(context, controller),
+                              icon: Icon(
+                                Icons.exit_to_app_rounded,
+                                color: ColorApp.colorPrimary,
+                                size: 24.sp,
                               ),
                             ),
-                            // Ubah ukuran logo jadi lebih kecil (16.h) agar tidak memakan ruang kosong berlebih
-                            Image.asset(
-                              appImages.imgLogoCafein.path,
-                              height: 16.h,
+                          ),
+                          // Jarak antara tombol logout dan teks
+                          SizedBox(height: 2.h),
+                          Text(
+                            'Selamat datang di Cafein',
+                            style: TextStyleApp.bodyTextBold.copyWith(
+                              fontSize: 18.sp,
+                              color: ColorApp.colorSecondary,
                             ),
-                            // Jarak antara logo dan teks diperkecil
-                            SizedBox(height: 1.h),
-                            Text(
-                              'Selamat datang di Cafein',
-                              style: TextStyleApp.bodyTextBold.copyWith(
-                                fontSize: 18.sp,
-                                color: ColorApp.colorSecondary,
-                              ),
-                              textAlign: TextAlign.center,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 0.1.h),
+                          Text(
+                            'Dapatkan info regulasi terbaru, jelajahi media, dan bagikan pengetahuan di satu tempat.',
+                            style: TextStyleApp.bodyTextSmall.copyWith(
+                              color: ColorApp.black.withAlpha(100),
                             ),
-                            SizedBox(height: 0.1.h),
-                            Text(
-                              'Dapatkan info regulasi terbaru, jelajahi media, dan bagikan pengetahuan di satu tempat.',
-                              style: TextStyleApp.bodyTextSmall.copyWith(
-                                color: ColorApp.black.withAlpha(100),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 1.h),
-                          ],
-                        ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 1.h),
+                        ],
                       ),
                     ),
-  
-                    // === MENU ITEMS ===
-                    SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        final menu = controller.menuItems[index];
-                        return HomeMenuWidget(
-                          title: menu['title'],
-                          subtitle: menu['subtitle'],
-                          image: menu['image'],
-                          onTap: () {
-                            Get.toNamed(menu['route']);
-                          },
-                        );
-                      }, childCount: controller.menuItems.length),
-                    ),
-  
-                    // Padding bawah agar menu tidak terpotong navbar
-                    SliverToBoxAdapter(child: SizedBox(height: 2.h)),
-                  ],
-                ),
+                  ),
+
+                  // === MENU ITEMS ===
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final menu = controller.menuItems[index];
+                      return HomeMenuWidget(
+                        title: menu['title'],
+                        subtitle: menu['subtitle'],
+                        image: menu['image'],
+                        onTap: () {
+                          Get.toNamed(menu['route']);
+                        },
+                      );
+                    }, childCount: controller.menuItems.length),
+                  ),
+
+                  // Padding bawah agar menu tidak terpotong navbar
+                  SliverToBoxAdapter(child: SizedBox(height: 2.h)),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },

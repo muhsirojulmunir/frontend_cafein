@@ -137,17 +137,21 @@ class EditPostController extends GetxController {
       );
 
       if (success) {
-        Get.snackbar('Berhasil', 'Posting berhasil diperbarui!',
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM);
-        
         // Refresh profile if it exists
         if (Get.isRegistered<UserProfileController>(tag: post.idUser.toString())) {
           Get.find<UserProfileController>(tag: post.idUser.toString()).refreshData();
         }
         
         Get.back();
+
+        Get.snackbar(
+          'Berhasil',
+          'Berhasil Mengubah Postingan',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 3),
+        );
       }
     } catch (e) {
       Get.snackbar('Error', e.toString().replaceAll('Exception: ', ''),

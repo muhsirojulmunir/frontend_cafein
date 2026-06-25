@@ -34,132 +34,156 @@ class RegulationItemListWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         boxShadow: [ElevationApp.elevation4pxBottom],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(14),
-        child: IntrinsicHeight(
-          child: Row(
-            children: [
-              // ── Left accent bar (navy blue) ──
-              Container(width: 1.5.w, color: ColorApp.colorPrimary),
-
-              // ── Content ──
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ── Judul regulasi ──
-                      Text(
-                        title,
-                        style: TextStyleApp.bodyTextBold.copyWith(
-                          fontSize: 15.sp,
-                          color: ColorApp.colorPrimary,
-                        ),
-                      ),
-                      SizedBox(height: 0.5.h),
-
-                      // ── Subtitle / deskripsi ──
-                      Text(
-                        subtitle,
-                        style: TextStyleApp.bodyTextSmall.copyWith(
-                          fontSize: 13.sp,
-                          color: Colors.black87,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(height: 1.5.h),
-
-                      // ── Chips: Jenis + Kategori ──
-                      Row(
-                        children: [
-                          _buildTypeChip(type),
-                          SizedBox(width: 2.w),
-                          if (category.isNotEmpty)
-                            Flexible(child: _buildCategoryChip(category)),
-                          const Spacer(),
-                          _buildStatusBadge(data.status),
-                        ],
-                      ),
-                      SizedBox(height: 1.5.h),
-
-                      // ── Divider ──
-                      Divider(
-                        color: ColorApp.grey.withAlpha(50),
-                        height: 1,
-                        thickness: 1,
-                      ),
-                      SizedBox(height: 1.h),
-
-                      // ── Action buttons: Download, Lihat, Hirarki, Bookmark ──
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _buildActionButton(
-                            icon: Icons.download_rounded,
-                            label: 'Download',
-                            color: ColorApp.colorPrimary,
-                            onTap: () => controller.downloadPdf(data.id),
-                          ),
-                          _verticalDivider(),
-                          _buildActionButton(
-                            icon: Icons.visibility_rounded,
-                            label: 'Lihat',
-                            color: ColorApp.green,
-                            onTap: () => controller.viewPdf(data.id),
-                          ),
-                          _verticalDivider(),
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              _buildActionButton(
-                                icon: Icons.account_tree_rounded,
-                                label: 'Hirarki',
-                                color: Colors.blueAccent,
-                                onTap: () =>
-                                    _showHierarchy(context, isBookmarked),
-                              ),
-                              if (controller.subBookmarkedKeys.any(
-                                (k) => k.startsWith("${data.id}_"),
-                              ))
-                                Positioned(
-                                  top: -2,
-                                  right: -2,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xFFF57C00),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    constraints: BoxConstraints(
-                                      minWidth: 1.5.w,
-                                      minHeight: 1.5.w,
-                                    ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          _verticalDivider(),
-                          _buildActionButton(
-                            icon: isBookmarked
-                                ? Icons.bookmark_rounded
-                                : Icons.bookmark_border_rounded,
-                            label: 'Bookmark',
-                            color: isBookmarked
-                                ? const Color(0xFFF57C00)
-                                : ColorApp.grey,
-                            onTap: () => controller.toggleBookmark(data.id),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+      child: Stack(
+        children: [
+          // ── Left accent bar (navy blue) ──
+          Positioned(
+            left: 0,
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: 1.5.w,
+              decoration: BoxDecoration(
+                color: ColorApp.colorPrimary,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(14),
+                  bottomLeft: Radius.circular(14),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+
+          // ── Content ──
+          Padding(
+            padding: EdgeInsets.fromLTRB(5.5.w, 2.h, 4.w, 2.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ── Judul regulasi ──
+                Text(
+                  title,
+                  style: TextStyleApp.bodyTextBold.copyWith(
+                    fontSize: 15.sp,
+                    color: ColorApp.colorPrimary,
+                  ),
+                ),
+                SizedBox(height: 0.5.h),
+
+                // ── Subtitle / deskripsi ──
+                Text(
+                  subtitle,
+                  style: TextStyleApp.bodyTextSmall.copyWith(
+                    fontSize: 13.sp,
+                    color: Colors.black87,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(height: 1.5.h),
+
+                // ── Chips: Jenis + Kategori ──
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Wrap(
+                        spacing: 2.w,
+                        runSpacing: 0.8.h,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          _buildTypeChip(type),
+                          if (category.isNotEmpty) _buildCategoryChip(category),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 2.w),
+                    _buildStatusBadge(data.status),
+                  ],
+                ),
+                SizedBox(height: 1.5.h),
+
+                // ── Divider ──
+                Divider(
+                  color: ColorApp.grey.withAlpha(50),
+                  height: 1,
+                  thickness: 1,
+                ),
+                SizedBox(height: 1.h),
+
+                // ── Action buttons: Download, Lihat, Hirarki, Bookmark ──
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildActionButton(
+                        icon: Icons.download_rounded,
+                        label: 'Download',
+                        color: ColorApp.colorPrimary,
+                        onTap: () => controller.downloadPdf(data.id),
+                      ),
+                    ),
+                    _verticalDivider(),
+                    Expanded(
+                      child: _buildActionButton(
+                        icon: Icons.visibility_rounded,
+                        label: 'Lihat',
+                        color: ColorApp.green,
+                        onTap: () => controller.viewPdf(data.id),
+                      ),
+                    ),
+                    _verticalDivider(),
+                    Expanded(
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Center(
+                            child: _buildActionButton(
+                              icon: Icons.account_tree_rounded,
+                              label: 'Hirarki',
+                              color: Colors.blueAccent,
+                              onTap: () =>
+                                  _showHierarchy(context, isBookmarked),
+                            ),
+                          ),
+                          if (controller.subBookmarkedKeys.any(
+                            (k) => k.startsWith("${data.id}_"),
+                          ))
+                            Positioned(
+                              top: -2,
+                              right: 2.w,
+                              child: Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFFF57C00),
+                                  shape: BoxShape.circle,
+                                ),
+                                constraints: BoxConstraints(
+                                  minWidth: 1.5.w,
+                                  minHeight: 1.5.w,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    _verticalDivider(),
+                    Expanded(
+                      child: _buildActionButton(
+                        icon: isBookmarked
+                            ? Icons.bookmark_rounded
+                            : Icons.bookmark_border_rounded,
+                        label: 'Bookmark',
+                        color: isBookmarked
+                            ? const Color(0xFFF57C00)
+                            : ColorApp.grey,
+                        onTap: () => controller.toggleBookmark(data.id),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -184,8 +208,12 @@ class RegulationItemListWidget extends StatelessWidget {
                 ),
               ),
               padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 0),
-              child: Obx(
-                () => ListView(
+              child: Obx(() {
+                // Prevent GetX error when both parent and child lists are empty
+                // by explicitly reading a reactive variable.
+                controller.subBookmarkedKeys.length;
+
+                return ListView(
                   controller: scrollController,
                   children: [
                     Center(
@@ -240,20 +268,20 @@ class RegulationItemListWidget extends StatelessWidget {
                     _buildHierarchyItem('Status', data.status, isStatus: true),
                     const SizedBox(height: 15),
                     _buildHierarchyGroup(
-                      'Aturan diatasnya (Parent)',
+                      'Aturan diatasnya',
                       data.parentData,
                       'parent',
                     ),
                     const SizedBox(height: 15),
                     _buildHierarchyGroup(
-                      'Aturan dibawahnya (Child)',
+                      'Aturan dibawahnya',
                       data.childData,
                       'child',
                     ),
                     SizedBox(height: 5.h),
                   ],
-                ),
-              ),
+                );
+              }),
             );
           },
         );
@@ -335,25 +363,25 @@ class RegulationItemListWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: isSmall ? 10 : 11,
-        vertical: isSmall ? 4 : 4,
+        horizontal: isSmall ? 9 : 10,
+        vertical: isSmall ? 3 : 4,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: color.withOpacity(0.35), width: 1.2),
+        border: Border.all(color: color.withOpacity(0.3), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: isSmall ? 15.sp : 13.sp, color: color),
-          const SizedBox(width: 6),
+          Icon(icon, size: isSmall ? 15.sp : 17.sp, color: color),
+          const SizedBox(width: 4),
           Text(
             status.toUpperCase(),
             style: TextStyleApp.bodyTextSmallBold.copyWith(
               color: color,
-              fontSize: isSmall ? 11.sp : 11.sp,
-              letterSpacing: 0.8,
+              fontSize: isSmall ? 10.sp : 11.sp,
+              letterSpacing: 0.5,
             ),
           ),
         ],
@@ -439,7 +467,7 @@ class RegulationItemListWidget extends StatelessWidget {
                               child: Text(
                                 '$jenisName No. $nomor Tahun $tahun',
                                 style: TextStyleApp.bodyTextBold.copyWith(
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -448,12 +476,12 @@ class RegulationItemListWidget extends StatelessWidget {
                             _buildStatusBadge(status, isSmall: true),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 8),
                         Text(
                           tentang,
                           style: TextStyleApp.bodyTextSmall.copyWith(
                             color: Colors.black,
-                            fontSize: 15.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                           ),
                           maxLines: 3,
@@ -630,6 +658,8 @@ class RegulationItemListWidget extends StatelessWidget {
                 color: Colors.black87,
                 fontWeight: FontWeight.w500,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

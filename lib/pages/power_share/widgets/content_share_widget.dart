@@ -126,7 +126,11 @@ class _PostCard extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 4.w),
               child: InstagramCaption(
                 username:
-                    post.accountName ?? post.username ?? post.nickname ?? post.fullname ?? 'User',
+                    post.accountName ??
+                    post.username ??
+                    post.nickname ??
+                    post.fullname ??
+                    'User',
                 caption:
                     '${post.title != null ? '${post.title}\n' : ''}${post.description}',
                 maxLines: 5, // Increased for better readability
@@ -167,7 +171,11 @@ class _PostCard extends StatelessWidget {
 
   Widget _buildHeader(BuildContext context) {
     final displayName =
-        post.accountName ?? post.username ?? post.nickname ?? post.fullname ?? 'User';
+        post.accountName ??
+        post.username ??
+        post.nickname ??
+        post.fullname ??
+        'User';
     final initial = displayName.isNotEmpty ? displayName[0].toUpperCase() : 'U';
 
     return Padding(
@@ -667,7 +675,7 @@ class _PostCard extends StatelessWidget {
                 onTap: () {
                   Get.snackbar(
                     'Share',
-                    'Fitur share akan segera hadir!',
+                    'Berhasil membagikan postingan!',
                     snackPosition: SnackPosition.BOTTOM,
                     backgroundColor: ColorApp.colorPrimary.withOpacity(0.8),
                     colorText: Colors.white,
@@ -1094,7 +1102,11 @@ class _CommentSheetState extends State<_CommentSheet> {
   // ── Single Comment — clean standalone card ──
   Widget _buildSingleCommentItem(Comment comment) {
     final name =
-        comment.accountName ?? comment.username ?? comment.fullname ?? comment.nickname ?? 'User';
+        comment.accountName ??
+        comment.username ??
+        comment.fullname ??
+        comment.nickname ??
+        'User';
     final initial = (comment.nickname ?? comment.fullname ?? name)[0]
         .toUpperCase();
 
@@ -1171,7 +1183,11 @@ class _CommentSheetState extends State<_CommentSheet> {
   // ── Multi Comment — parent card + threaded replies ──
   Widget _buildMultiCommentItem(Comment comment, int depth) {
     final name =
-        comment.accountName ?? comment.username ?? comment.fullname ?? comment.nickname ?? 'User';
+        comment.accountName ??
+        comment.username ??
+        comment.fullname ??
+        comment.nickname ??
+        'User';
     final initial = (comment.nickname ?? comment.fullname ?? name)[0]
         .toUpperCase();
 
@@ -1286,7 +1302,11 @@ class _CommentSheetState extends State<_CommentSheet> {
   // ── Reply Tile — nested reply with thread line ──
   Widget _buildReplyItem(Comment comment, int depth) {
     final name =
-        comment.accountName ?? comment.username ?? comment.fullname ?? comment.nickname ?? 'User';
+        comment.accountName ??
+        comment.username ??
+        comment.fullname ??
+        comment.nickname ??
+        'User';
     final initial = (comment.nickname ?? comment.fullname ?? name)[0]
         .toUpperCase();
 

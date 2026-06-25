@@ -1,4 +1,4 @@
-package com.example.cafein
+package com.cafein.mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

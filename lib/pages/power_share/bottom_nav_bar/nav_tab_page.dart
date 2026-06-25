@@ -119,7 +119,14 @@ class NavTabPage extends StatelessWidget {
                     const SharePage(),
                     const FollowPage(),
                     const CafeRoomPage(),
-                    UserProfilePage(userId: controller.currentUserId.value),
+                    // Only build UserProfilePage once the userId is known
+                    Obx(() {
+                      final uid = controller.currentUserId.value;
+                      if (uid == 0) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return UserProfilePage(userId: uid);
+                    }),
                   ],
                 ),
 

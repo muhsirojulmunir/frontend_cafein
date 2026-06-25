@@ -50,7 +50,7 @@ class UserProfilePage extends StatelessWidget {
               return const SizedBox.shrink();
             final isOwner =
                 controller.currentUserId.value ==
-                controller.userData['id'].toString();
+                controller.userData['id']?.toString();
             if (!isOwner) return const SizedBox.shrink();
             return IconButton(
               icon: Icon(IconlyLight.setting, color: ColorApp.black),
@@ -78,7 +78,7 @@ class UserProfilePage extends StatelessWidget {
         final initial = displayName.isNotEmpty
             ? displayName[0].toUpperCase()
             : 'U';
-        final isOwner = controller.currentUserId.value == user['id'].toString();
+        final isOwner = controller.currentUserId.value == user['id']?.toString();
 
         return RefreshIndicator(
           onRefresh: () async => controller.refreshData(),
@@ -279,7 +279,7 @@ class UserProfilePage extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Icon(
-                                    _getCredentialIcon(cred['type'] ?? 0),
+                                    _getCredentialIcon(_safeInt(cred['type'])),
                                     size: 16.sp,
                                     color: cred['is_pinned'] == true
                                         ? const Color(0xFF1B4E6B)
@@ -308,8 +308,8 @@ class UserProfilePage extends StatelessWidget {
                                       children: [
                                         GestureDetector(
                                           onTap: () => controller.togglePin(
-                                            cred['id'],
-                                            cred['type'],
+                                            _safeInt(cred['id']),
+                                            _safeInt(cred['type']),
                                           ),
                                           child: Icon(
                                             cred['is_pinned'] == true
@@ -334,7 +334,7 @@ class UserProfilePage extends StatelessWidget {
                                               6: 'Nomor Telepon',
                                             };
                                             final typeName =
-                                                typeMap[cred['type']] ??
+                                                typeMap[_safeInt(cred['type'])] ??
                                                 'Keahlian';
                                             Get.to(
                                               () => const EditCredentialPage(),
@@ -369,8 +369,8 @@ class UserProfilePage extends StatelessWidget {
                                             _showDeleteCredentialConfirmation(
                                               context,
                                               controller,
-                                              cred['id'],
-                                              cred['type'],
+                                              _safeInt(cred['id']),
+                                              _safeInt(cred['type']),
                                             );
                                           },
                                           child: Icon(
@@ -696,8 +696,17 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
+  // Safe conversion of dynamic (String/int) to int
+  static int _safeInt(dynamic value, {int defaultValue = 0}) {
+    if (value == null) return defaultValue;
+    if (value is int) return value;
+    if (value is String) return int.tryParse(value) ?? defaultValue;
+    if (value is double) return value.toInt();
+    return defaultValue;
+  }
+
   String _getFormattedCredentialText(Map<String, dynamic> cred) {
-    final type = cred['type'] ?? 0;
+    final type = _safeInt(cred['type']);
     final text = cred['description'] ?? cred['credential_name'] ?? '';
 
     if (text.isEmpty) return '';

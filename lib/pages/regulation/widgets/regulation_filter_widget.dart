@@ -16,9 +16,9 @@ class RegulationFilterWidget extends StatelessWidget {
       width: 88.5.w,
       child: Row(
         children: [
-          Container(
-            width: 73.5.w,
-            height: 12.5.w,
+          Expanded(
+            child: Container(
+              height: 12.5.w,
             margin: EdgeInsets.only(bottom: 0.5.h),
             decoration: BoxDecoration(
               color: ColorApp.white,
@@ -55,6 +55,7 @@ class RegulationFilterWidget extends StatelessWidget {
                 ),
               ),
             ),
+          ),
           ),
           SizedBox(width: 2.5.w),
           Obx(

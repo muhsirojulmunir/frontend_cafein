@@ -123,17 +123,7 @@ class MediaController extends GetxController {
     try {
       final url = await _service.getDownloadUrl(id);
       final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        Get.snackbar(
-          'Error',
-          'Tidak dapat membuka link download',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -150,17 +140,7 @@ class MediaController extends GetxController {
     try {
       final url = await _service.getViewUrl(id);
       final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        Get.snackbar(
-          'Error',
-          'Tidak dapat membuka dokumen',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -171,4 +151,5 @@ class MediaController extends GetxController {
       );
     }
   }
+
 }

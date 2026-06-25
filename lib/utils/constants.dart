@@ -1,6 +1,6 @@
 class AppConstants {
   static const String BASE_URL =
-      'http://localhost:8000/api'; // Untuk Flutter Web Browser
+      'https://cafein.inkindojawatimur.org/api'; // Production Server
   static const String API_REGULASI = '/cafein/regulasi';
   static const String API_DOWNLOAD_REGULASI = '/cafein/downloadRegulasi';
   static const String API_VIEW_REGULASI = '/cafein/viewRegulasi';

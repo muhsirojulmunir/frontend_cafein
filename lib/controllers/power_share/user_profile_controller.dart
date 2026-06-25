@@ -30,8 +30,8 @@ class UserProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCurrentUserId();
-    fetchProfileData();
+    // Ensure current user ID is loaded before fetching profile data
+    fetchCurrentUserId().then((_) => fetchProfileData());
   }
 
   Future<void> fetchCurrentUserId() async {
@@ -43,6 +43,7 @@ class UserProfileController extends GetxController {
       final success = await _postService.deletePost(postId);
       if (success) {
         userPosts.removeWhere((post) => post.id == postId);
+        userAnswers.removeWhere((post) => post.id == postId);
         Get.snackbar(
           'Sukses',
           'Postingan berhasil dihapus',
